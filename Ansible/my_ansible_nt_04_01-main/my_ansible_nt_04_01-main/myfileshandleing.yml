@@ -1,0 +1,18 @@
+---
+- hosts: 172.31.45.132
+  become: yes
+  tasks:
+  - include_tasks: myfile.yml
+  - name: install websever
+    apt:
+     name: apache2
+     state: present
+  - name:  copy index file into nodes
+    template: 
+        src: myindex.j2
+        dest: /var/www/html/index.html
+  - name: i want to download remote(internet) files
+    get_url:
+       url: https://get.jenkins.io/war/2.325/jenkins.war
+       dest: /home/ubuntu/jenkins.war
+       force_basic_auth: yes
